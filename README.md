@@ -4,5 +4,5 @@ Aplikacja dająca możliwość pobierania z Api Narodowego Banku Polskiego (http
 Dane są zapisywane do bazy danych opartej o MySql. 
 ### Uruchomienie apolikacji
 Aby uruchomić aplikację, po jej pobraniu, należy wykonać polecenia:
-``` composer install ```
+``` composer install ```<br/>
 ``` symfony serve ```
