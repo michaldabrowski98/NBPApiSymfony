@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\CurrencyRepository;
@@ -21,7 +23,7 @@ class Currency
     #[ORM\Column(length: 10)]
     private string $currencyCode;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'money')]
     private Money $exchangeRate;
 
     public function getId(): int
@@ -44,19 +46,9 @@ class Currency
         $this->name = $name;
     }
 
-    public function getCurrencyCode(): string
-    {
-        return $this->currencyCode;
-    }
-
     public function setCurrencyCode(string $currencyCode): void
     {
         $this->currencyCode = $currencyCode;
-    }
-
-    public function getExchangeRate(): Money
-    {
-        return $this->exchangeRate;
     }
 
     public function setExchangeRate(Money $exchangeRate): void
