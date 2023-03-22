@@ -1,13 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
 use App\Client\NBPApiClient;
 use App\Entity\Currency;
-use App\Types\MoneyType;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CurrencyExchangeRateUpdateService
@@ -30,8 +26,6 @@ class CurrencyExchangeRateUpdateService
 
     public function updateExchangeRates(): void
     {
-        Type::addType('money', MoneyType::class);
-        $this->entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('money', 'money');
         $currencies = $this->NBPApiClient->fetchCurrenciesInformation();
         foreach ($currencies as $currency) {
             $currencyEntity = $this->entityManager->getRepository(Currency::class)->findOneBy([
@@ -44,10 +38,10 @@ class CurrencyExchangeRateUpdateService
         $this->entityManager->flush();
     }
 
-    private function getCurrencyEntity(?Currency $currencyEntity, mixed $currency): array|Currency
+    private function getCurrencyEntity(?Currency $currencyEntity, array $currency): Currency
     {
         if ($currencyEntity instanceof Currency) {
-            $currencyEntity->setExchangeRate($this->currencyCreatorService->getMoneyObject($currency));
+            $currencyEntity->setExchangeRate((string) $currency['mid']);
         } else {
             $currencyEntity = $this->currencyCreatorService->createCurrencyFromArray($currency);
         }

@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container p-4 bg-primary">
+        <h4 class="text-white">Strona {{ pageNumber }}</h4>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Kod</th>
+                <th scope="col">Kurs</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for currency in currencies %}
+                <tr>
+                    <td>{{ currency.name }}</td>
+                    <td>{{ currency.currencyCode }}</td>
+                    <td>{{ currency.exchangeRate }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container p-4 text-center">
+        <a href="{{ path('list_controller', {'page': pageNumber-1}) }}" class="{% if pageNumber == 1 %}disabled{% endif %}">
+            <button type="button" class="btn btn-primary {% if pageNumber == 1 %}disabled{% endif %}">
+                Poprzednia strona
+            </button>
+        </a>
+        <a href="{{ path('list_controller', {'page': pageNumber+1}) }}">
+            <button type="button" class="btn btn-primary">
+                Następna strona
+            </button>
+        </a>
+    </div>
+{% endblock %}

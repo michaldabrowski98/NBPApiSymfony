@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Entity;
 
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
 #[ORM\UniqueConstraint(name: "currency_code_idx", columns: ["currency_code"])]
@@ -23,8 +20,8 @@ class Currency
     #[ORM\Column(length: 10)]
     private string $currencyCode;
 
-    #[ORM\Column(type: 'money')]
-    private Money $exchangeRate;
+    #[ORM\Column]
+    private string $exchangeRate;
 
     public function getId(): int
     {
@@ -46,12 +43,22 @@ class Currency
         $this->name = $name;
     }
 
+    public function getCurrencyCode(): string
+    {
+        return $this->currencyCode;
+    }
+
     public function setCurrencyCode(string $currencyCode): void
     {
         $this->currencyCode = $currencyCode;
     }
 
-    public function setExchangeRate(Money $exchangeRate): void
+    public function getExchangeRate(): string
+    {
+        return $this->exchangeRate;
+    }
+
+    public function setExchangeRate(string $exchangeRate): void
     {
         $this->exchangeRate = $exchangeRate;
     }
